@@ -534,3 +534,26 @@ height:140px;
   z-index:99999;
   box-shadow:0 4px 20px rgba(0,0,0,.2);
 }
+html,
+body{
+  height:100vh;
+  overflow:hidden;
+}
+
+.layout{
+  height:calc(100vh - 90px);
+}
+
+.content{
+  overflow:hidden;
+}
+
+.panel{
+  overflow:hidden;
+}
+
+#stockCards{
+  height:calc(100vh - 320px);
+  overflow-y:auto;
+  -webkit-overflow-scrolling:touch;
+}
