@@ -541,15 +541,7 @@ body{
 }
 
 .layout{
-  height:calc(100vh - 90px);
-}
-
-.content{
-  overflow:hidden;
-}
-
-.panel{
-  overflow:hidden;
+  height:calc(100vh - 70px);
 }
 
 .content{
@@ -558,7 +550,15 @@ body{
   min-height:0;
 }
 
+.content > .panel{
+  display:flex;
+  flex-direction:column;
+  min-height:0;
+}
+
 #stockCards{
   flex:1;
+  min-height:0;
   overflow-y:auto;
+  padding-bottom:80px;
 }
