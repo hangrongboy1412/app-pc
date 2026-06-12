@@ -1,6 +1,6 @@
 const STORAGE_KEY = "luu-kho-records-v1";
 const SETTINGS_KEY = "luu-kho-settings-v1";
-
+let isSaving = false;
 const fields = {
   editingId: document.querySelector("#editingId"),
   code: document.querySelector("#code"),
@@ -51,6 +51,11 @@ render();
 
 form.addEventListener("submit", async (event) => {
   event.preventDefault();
+
+  if (isSaving) return;
+  isSaving = true;
+
+  showToast("⏳ Đang lưu...");
 let uploadedImage = "";
 
 if (fields.imageFile.files[0]) {
@@ -92,6 +97,7 @@ showToast("⏳ Đang lưu...");
   resetForm();
   render();
   showToast("✅ Đã lưu thành công");
+  isSaving = false;
 });
 
 resetBtn.addEventListener("click", resetForm);
