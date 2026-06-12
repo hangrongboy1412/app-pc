@@ -55,7 +55,7 @@ form.addEventListener("submit", async (event) => {
   if (isSaving) return;
   isSaving = true;
 
-  showToast("⏳ Đang lưu...");
+  alert("ĐANG LƯU");
 
   try {
 
@@ -85,7 +85,7 @@ form.addEventListener("submit", async (event) => {
     resetForm();
     render();
 console.log("SAVE OK");
-showToast("✅ Đã lưu thành công");
+alert("LƯU XONG");
 
   } catch (error) {
 
