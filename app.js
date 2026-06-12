@@ -56,50 +56,48 @@ form.addEventListener("submit", async (event) => {
   isSaving = true;
 
   showToast("⏳ Đang lưu...");
-let uploadedImage = "";
 
-if (fields.imageFile.files[0]) {
+  try {
 
-  const previewBase64 = await new Promise((resolve) => {
-    const reader = new FileReader();
-    reader.onload = () => resolve(reader.result);
-    reader.readAsDataURL(fields.imageFile.files[0]);
-  });
+    let uploadedImage = "";
 
-const result = await uploadImageToDrive(
-  fields.imageFile.files[0]
-);
+    if (fields.imageFile.files[0]) {
 
-uploadedImage = result.imageUrl || "";
+      const result = await uploadImageToDrive(
+        fields.imageFile.files[0]
+      );
 
-console.log("uploadedImage =", uploadedImage);
-}
+      uploadedImage = result.imageUrl || "";
+    }
 
-console.log("uploadedImage =", uploadedImage);
+    const data = readForm(uploadedImage);
 
-const data = readForm(uploadedImage);
+    if (data.id) {
+      records = records.map(item =>
+        item.id === data.id ? data : item
+      );
+    } else {
+      data.id = crypto.randomUUID();
+      records.unshift(data);
+    }
 
- if (data.id) {
-  records = records.map(item =>
-    item.id === data.id ? data : item
-  );
-} else {
-  data.id = crypto.randomUUID();
-  records.unshift(data);
-}
+    saveRecords();
+    resetForm();
+    render();
 
-  saveRecords();
-  if (isSaving) return;
+    showToast("✅ Đã lưu thành công");
 
-isSaving = true;
+  } catch (error) {
 
-showToast("⏳ Đang lưu...");
-  resetForm();
-  render();
-  showToast("✅ Đã lưu thành công");
-  isSaving = false;
+    console.error(error);
+    showToast("❌ Lưu thất bại");
+
+  } finally {
+
+    isSaving = false;
+
+  }
 });
-
 resetBtn.addEventListener("click", resetForm);
 searchInput.addEventListener("input", render);
 typeFilter.addEventListener("change", render);
