@@ -534,31 +534,3 @@ height:140px;
   z-index:99999;
   box-shadow:0 4px 20px rgba(0,0,0,.2);
 }
-html,
-body{
-  height:100vh;
-  overflow:hidden;
-}
-
-.layout{
-  height:calc(100vh - 70px);
-}
-
-.content{
-  display:flex;
-  flex-direction:column;
-  min-height:0;
-}
-
-.content > .panel{
-  display:flex;
-  flex-direction:column;
-  min-height:0;
-}
-
-#stockCards{
-  flex:1;
-  min-height:0;
-  overflow-y:auto;
-  padding-bottom:80px;
-}
