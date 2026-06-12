@@ -65,14 +65,14 @@ button:hover {
 
 .topbar{
   display:grid;
-  padding:16px 24px;
+  padding:8px 24px;   /* từ 16px xuống 8px */
   grid-template-columns:300px 1fr;
   align-items:center;
-  gap:30px;
+  gap:10px;           /* từ 30px xuống 10px */
 }
 
 .topbar h1{
-  margin-bottom:4px;
+  margin:0;
 }
 .panel h2 {
   margin: 0;
@@ -89,8 +89,8 @@ button:hover {
   color: var(--muted);
 }
 
-.topbar p {
-  margin: 6px 0 0;
+.topbar p{
+  margin:0;
 }
 
 .top-actions{
