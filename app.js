@@ -55,7 +55,7 @@ form.addEventListener("submit", async (event) => {
   if (isSaving) return;
   isSaving = true;
 
- showToast("⏳ Đang lưu...");
+ showToast("⏳ Đang lưu...", 30000);
 
   try {
 
@@ -85,7 +85,7 @@ form.addEventListener("submit", async (event) => {
     resetForm();
     render();
 console.log("SAVE OK");
-showToast("✅ Đã lưu thành công");
+showToast("✅ Đã lưu thành công", 2000);
 
   } catch (error) {
 
@@ -554,6 +554,7 @@ function setStatus(message) {
   }
   console.log(message);
 }
+
 async function uploadImageToDrive(file) {
 
   const scriptUrl = scriptUrlInput.value.trim();
@@ -600,31 +601,19 @@ document.addEventListener("click", (e)=>{
     e.target.style.display = "none";
   }
 });
-function showToast(text, time = 3000) {
+function showToast(text, time = 3000){
   const toast = document.getElementById("toast");
 
   toast.textContent = text;
-  toast.style.display = "block";
-
-  clearTimeout(toast.timer);
-
-  if (time > 0) {
-    toast.timer = setTimeout(() => {
-      toast.style.display = "none";
-    }, time);
-  }
-
-  if(!toast) return;
-
-  toast.textContent = text;
-  toast.style.display = "block";
+  toast.style.display = "flex";
 
   clearTimeout(toast.timer);
 
   toast.timer = setTimeout(() => {
     toast.style.display = "none";
-  }, 8000);
+  }, time);
 }
+
 function showImage(src){
   document.getElementById("imgPreview").src = src;
   document.getElementById("imgModal").style.display = "flex";
@@ -633,3 +622,14 @@ function showImage(src){
 function closeImage(){
   document.getElementById("imgModal").style.display = "none";
 }
+fields.imageFile.addEventListener("change", () => {
+
+  const uploadText =
+    document.getElementById("uploadText");
+
+  uploadText.textContent =
+    fields.imageFile.files.length
+      ? "✅ " + fields.imageFile.files[0].name
+      : "Chọn hoặc kéo ảnh vào";
+
+});
