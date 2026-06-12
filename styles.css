@@ -70,6 +70,24 @@ button:hover {
   align-items:center;
   gap:10px;           /* từ 30px xuống 10px */
 }
+.topbar{
+  background: rgba(180, 169, 169, 0.25);
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 0, 0, 0.3);
+  border-radius: 18px;
+  margin: 12px;
+  padding: 12px 24px;
+  box-shadow: 0 8px 30px rgba(235, 11, 11, 0.12);
+}
+.topbar{
+  background: linear-gradient(
+    90deg,
+    #b47f7f,
+    #64b378,
+    #4068d6
+  );
+  border-bottom: 3px solid #36b9ff;
+}
 
 .topbar h1{
   margin:0;
@@ -79,7 +97,7 @@ button:hover {
 }
 
 .topbar h1 {
-  font-size: 26px;
+  font-size: 32px;
 }
 
 .topbar p,
@@ -523,16 +541,23 @@ height:140px;
   margin-top:auto;
 }
 #toast{
-  position:fixed;
-  top:20px;
-  right:20px;
-  background:#196b5b;
-  color:#fff;
-  padding:12px 18px;
-  border-radius:10px;
+  position:absolute;
+  inset:0;
+
   display:none;
-  z-index:99999;
-  box-shadow:0 4px 20px rgba(0,0,0,.2);
+  justify-content:center;
+  align-items:center;
+
+  color:#fff;
+  font-size:20px;
+  font-weight:600;
+
+  border-radius:inherit;
+
+  background:rgba(25,107,91,.45);
+  backdrop-filter:blur(8px);
+
+  z-index:999;
 }
 html,
 body{
@@ -580,4 +605,36 @@ body{
   max-height:95%;
   border-radius:12px;
   object-fit:contain;
+}
+.save-btn-wrap{
+  position:relative;
+  border-radius:12px;
+  overflow:hidden;
+}
+.upload-box{
+  display:block;
+  cursor:pointer;
+}
+.upload-box input{
+  display:none;
+}
+.upload-content{
+  border:2px dashed #196b5b;
+  border-radius:12px;
+
+  height:90px;
+
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+  align-items:center;
+
+  background:#f8faf9;
+}
+.upload-content:hover{
+  background:#eef6f1;
+}
+.upload-icon{
+  font-size:28px;
+  margin-bottom:8px;
 }
