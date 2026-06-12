@@ -552,8 +552,13 @@ body{
   overflow:hidden;
 }
 
+.content{
+  display:flex;
+  flex-direction:column;
+  min-height:0;
+}
+
 #stockCards{
-  height:calc(100vh - 320px);
+  flex:1;
   overflow-y:auto;
-  -webkit-overflow-scrolling:touch;
 }
