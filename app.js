@@ -84,8 +84,14 @@ const data = readForm(uploadedImage);
 }
 
   saveRecords();
+  if (isSaving) return;
+
+isSaving = true;
+
+showToast("⏳ Đang lưu...");
   resetForm();
   render();
+  showToast("✅ Đã lưu thành công");
 });
 
 resetBtn.addEventListener("click", resetForm);
