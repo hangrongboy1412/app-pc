@@ -625,3 +625,11 @@ function showToast(text, time = 3000) {
     toast.style.display = "none";
   }, 8000);
 }
+function showImage(src){
+  document.getElementById("imgPreview").src = src;
+  document.getElementById("imgModal").style.display = "flex";
+}
+
+function closeImage(){
+  document.getElementById("imgModal").style.display = "none";
+}
