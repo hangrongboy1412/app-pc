@@ -64,11 +64,22 @@ button:hover {
 }
 
 .topbar{
-  display:grid;
-  padding:8px 24px;   /* từ 16px xuống 8px */
-  grid-template-columns:300px 1fr;
+  display:flex;
   align-items:center;
-  gap:10px;           /* từ 30px xuống 10px */
+  justify-content:space-between;
+
+  margin:12px;
+  padding:12px 24px;
+
+  background:linear-gradient(
+    90deg,
+    #b47f7f,
+    #64b378,
+    #4068d6
+  );
+
+  border-radius:18px;
+  border-bottom:3px solid #36b9ff;
 }
 .topbar{
   background: rgba(180, 169, 169, 0.25);
@@ -99,14 +110,6 @@ button:hover {
 .topbar h1 {
   font-size: 32px;
 }
-
-.topbar p,
-.settings p,
-.status,
-.empty {
-  color: var(--muted);
-}
-
 .topbar p{
   margin:0;
 }
@@ -115,7 +118,7 @@ button:hover {
   display:flex;
   align-items:center;
   gap:10px;
-  justify-content:center;
+  margin-left:auto;
 }
 
 .layout {
@@ -331,11 +334,6 @@ td.number {
   grid-template-columns: minmax(0, 1fr) auto;
   gap: 10px;
 }
-
-.status {
-  margin: 0;
-}
-
 @media (max-width: 1050px) {
   .layout {
     grid-template-columns: 1fr;
@@ -417,10 +415,6 @@ height:140px;
 .row-actions button{
   min-width:70px;
 }
-.sheet-url{
-  width:700px;
-  border-radius:12px;
-}
 @media (max-width: 768px){
 
   .layout{
@@ -446,12 +440,6 @@ height:140px;
     align-items:stretch;
     gap:10px;
   }
-
-  .top-actions{
-    flex-wrap:wrap;
-    justify-content:center;
-  }
-
   .sheet-url{
     width:100%;
   }
@@ -637,4 +625,31 @@ body{
 .upload-icon{
   font-size:28px;
   margin-bottom:8px;
+}
+.topbar{
+  display:flex;
+  align-items:center;
+
+  margin:12px;
+  padding:12px 24px;
+
+  background:linear-gradient(
+    90deg,
+    #b47f7f,
+    #64b378,
+    #4068d6
+  );
+
+  border:1px solid rgba(255,255,255,.2);
+  border-radius:18px;
+
+  box-shadow:0 8px 30px rgba(0,0,0,.12);
+}
+
+.top-actions{
+  display:flex;
+  align-items:center;
+  gap:10px;
+
+  margin-left:auto;
 }
