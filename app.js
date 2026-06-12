@@ -590,3 +590,17 @@ document.addEventListener("click", (e)=>{
     e.target.style.display = "none";
   }
 });
+function showToast(text){
+  const toast = document.getElementById("toast");
+
+  if(!toast) return;
+
+  toast.textContent = text;
+  toast.style.display = "block";
+
+  clearTimeout(toast.timer);
+
+  toast.timer = setTimeout(() => {
+    toast.style.display = "none";
+  }, 2000);
+}
