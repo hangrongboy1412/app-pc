@@ -600,8 +600,19 @@ document.addEventListener("click", (e)=>{
     e.target.style.display = "none";
   }
 });
-function showToast(text){
+function showToast(text, time = 3000) {
   const toast = document.getElementById("toast");
+
+  toast.textContent = text;
+  toast.style.display = "block";
+
+  clearTimeout(toast.timer);
+
+  if (time > 0) {
+    toast.timer = setTimeout(() => {
+      toast.style.display = "none";
+    }, time);
+  }
 
   if(!toast) return;
 
@@ -612,5 +623,5 @@ function showToast(text){
 
   toast.timer = setTimeout(() => {
     toast.style.display = "none";
-  }, 2000);
+  }, 8000);
 }
