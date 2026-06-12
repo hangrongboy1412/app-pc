@@ -84,8 +84,8 @@ form.addEventListener("submit", async (event) => {
     saveRecords();
     resetForm();
     render();
-
-    showToast("✅ Đã lưu thành công");
+console.log("SAVE OK");
+showToast("✅ Đã lưu thành công");
 
   } catch (error) {
 
