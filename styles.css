@@ -140,16 +140,18 @@ input:focus,select:focus,textarea:focus{
 .card{
   display:flex;
   flex-direction:column;
-  min-height:380px;
+  min-height:430px;
+
   background:#fff;
   border:1px solid var(--line);
   border-radius:16px;
   overflow:hidden;
+
   box-shadow:0 6px 20px rgba(0,0,0,.08);
   padding:12px;
+
   transition:.2s;
 }
-
 .card:hover{
   transform:translateY(-3px);
   box-shadow:0 12px 30px rgba(0,0,0,.12);
