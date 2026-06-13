@@ -31,14 +31,6 @@ const pullBtn = document.querySelector("#pullBtn");
 const syncBtn = document.querySelector("#syncBtn");
 const statusText = document.querySelector("#statusText");
 const settingsBtn = document.querySelector("#settingsBtn");
-const totals = {
-  rows: document.querySelector("#totalRows"),
-  a: document.querySelector("#totalA"),
-  b: document.querySelector("#totalB"),
-  c: document.querySelector("#totalC"),
-  tlv: document.querySelector("#totalTlv"),
-  tlh: document.querySelector("#totalTlh"),
-};
 
 let records = loadRecords();
 let settings = loadSettings();
@@ -223,9 +215,7 @@ ${
   btn.addEventListener("click", handleRowAction);
 });
 
-  }   // <-- THÊM DẤU } NÀY
-
-  renderTotals(filtered);
+  }
 }
 
 function getFilteredRecords() {
@@ -296,26 +286,8 @@ function clearFilters() {
   toDateFilter.value = "";
   render();
 }
-
-function renderTotals(list) {
-  totals.rows.textContent = countUniqueItems(list);
-  totals.a.textContent = formatNumber(countType(list, "vong"));
-  totals.b.textContent = formatNumber(countType(list, "nhan"));
-  totals.c.textContent = formatNumber(countType(list, "mat"));
-  totals.tlh.textContent = formatNumber(countType(list, "bong"));
-  totals.tlv.textContent = formatNumber(countOtherTypes(list));
-}
-
 function countType(list, keyword) {
   return list.filter((item) => normalizeText(item.type).includes(keyword)).length;
-}
-
-function countOtherTypes(list) {
-  const knownTypes = ["vong", "nhan", "mat", "bong"];
-  return list.filter((item) => {
-    const type = normalizeText(item.type);
-    return !knownTypes.some((keyword) => type.includes(keyword));
-  }).length;
 }
 
 function normalizeText(value) {
