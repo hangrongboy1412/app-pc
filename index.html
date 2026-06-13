@@ -17,24 +17,26 @@ href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%22
 
   <div class="top-actions">
 
-   <button id="settingsBtn">
-  ⚙️ Cài đặt
-    </button>
+  <button type="button" id="settingsBtn">
+    ⚙️ Cài đặt
+  </button>
 
-    <button id="exportCsvBtn">
-      Xuất CSV
-    </button>
+  <button type="button" id="exportCsvBtn">
+    Xuất CSV
+  </button>
 
-    <button id="pullBtn">
-      Tải từ Sheet
-    </button>
+  <button type="button" id="pullBtn">
+    Tải từ Sheet
+  </button>
 
-    <button id="syncBtn">
-      Đồng bộ Sheet
-    </button>
+  <button type="button" id="syncBtn">
+    Đồng bộ Sheet
+  </button>
 
-  </div>
-  <p id="statusText" class="status"></p>
+</div>
+
+  <span id="statusText" class="status"></span>
+</div>
 
   </header>
 
@@ -99,9 +101,8 @@ href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%22
   <textarea id="note" rows="3" placeholder="Không bắt buộc"></textarea>
 </label>
 
-<label>
+<div class="image-upload">
   <span>Ảnh sản phẩm</span>
-</label>
 
 <label for="imageFile" class="upload-box">
 
@@ -132,39 +133,13 @@ href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%22
     </section>
 
     <section class="content">
-      <section class="summary" aria-label="Th&#7889;ng k&#234;">
-        <div>
-          <span>S&#7889; h&#224;ng c&#243; m&#7863;t</span>
-          <strong id="totalRows">0</strong>
-        </div>
-        <div>
-          <span>V&#242;ng</span>
-          <strong id="totalA">0</strong>
-        </div>
-        <div>
-          <span>Nh&#7851;n</span>
-          <strong id="totalB">0</strong>
-        </div>
-        <div>
-          <span>M&#7863;t</span>
-          <strong id="totalC">0</strong>
-        </div>
-        <div>
-          <span>B&#244;ng</span>
-          <strong id="totalTlh">0</strong>
-        </div>
-        <div>
-          <span>Kh&#225;c</span>
-          <strong id="totalTlv">0</strong>
-        </div>
-      </section>
-
-      <section class="panel">
+    
+      <section class="panel stock-panel">
         <div class="panel-title">
           <h2>Danh s&#225;ch kho</h2>
         </div>
 
-        <div class="filters" aria-label="B&#7897; l&#7885;c">
+        <div class="filters">
           <input id="searchInput" placeholder="T&#236;m m&#227;, lo&#7841;i, th&#244;ng tin, ghi ch&#250;...">
           <select id="typeFilter">
             <option value="">T&#7845;t c&#7843; lo&#7841;i</option>
