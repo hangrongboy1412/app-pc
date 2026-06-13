@@ -90,7 +90,6 @@ form.addEventListener("submit", async (event) => {
     saveRecords();
     resetForm();
     render();
-console.log("SAVE OK");
 showToast("✅ Đã lưu thành công", 2000);
 
   } catch (error) {
@@ -163,8 +162,6 @@ ${
   loading="lazy"
   onclick="showImage('${item.imageUrl}')"
   style="cursor:pointer"
-  onload="console.log('IMG OK', this.src)"
-  onerror="console.log('IMG ERROR', this.src)"
 >`
     : `<div class="no-image">Không có ảnh</div>`
 }
@@ -216,6 +213,7 @@ ${
 });
 
   }
+
 }
 
 function getFilteredRecords() {
@@ -286,29 +284,6 @@ function clearFilters() {
   toDateFilter.value = "";
   render();
 }
-function countType(list, keyword) {
-  return list.filter((item) => normalizeText(item.type).includes(keyword)).length;
-}
-
-function normalizeText(value) {
-  return String(value || "")
-    .normalize("NFD")
-    .replace(/[\u0300-\u036f]/g, "")
-    .replace(/đ/g, "d")
-    .replace(/Đ/g, "d")
-    .toLowerCase()
-    .trim();
-}
-
-function countUniqueItems(list) {
-  const codes = new Set();
-  for (const item of list) {
-    const code = String(item.code || "").trim().toLowerCase();
-    codes.add(code || item.id);
-  }
-  return codes.size;
-}
-
 function handleRowAction(event) {
   const id = event.currentTarget.dataset.id;
   const action = event.currentTarget.dataset.action;
@@ -471,7 +446,6 @@ function normalizePulledRecord(item) {
     tlv: Number(item.tlv || 0),
     tlh: Number(item.tlh || 0),
     note: String(item.note || ""),
-    imageUrl: String(item.imageUrl || ""),
     updatedAt: item.updatedAt || new Date().toISOString(),
   };
 }
@@ -594,9 +568,6 @@ const res = await fetch(scriptUrl, {
 });
 
 const result = await res.json();
-
-console.log("result =", result);
-
 return result;
 }
 function showImage(url){
@@ -624,12 +595,6 @@ function showToast(text, time = 3000){
     toast.style.display = "none";
   }, time);
 }
-
-function showImage(src){
-  document.getElementById("imgPreview").src = src;
-  document.getElementById("imgModal").style.display = "flex";
-}
-
 function closeImage(){
   document.getElementById("imgModal").style.display = "none";
 }
