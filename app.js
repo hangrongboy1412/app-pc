@@ -3,6 +3,7 @@ const SETTINGS_KEY = "luu-kho-settings-v1";
 let isSaving = false;
 const fields = {
   editingId: document.querySelector("#editingId"),
+  currentImageUrl: document.querySelector("#currentImageUrl"),
   code: document.querySelector("#code"),
   type: document.querySelector("#type"),
   info: document.querySelector("#info"),
@@ -14,6 +15,8 @@ const fields = {
   tlh: document.querySelector("#tlh"),
   note: document.querySelector("#note"),
   imageFile: document.querySelector("#imageFile"),
+  status: document.querySelector("#status"),
+  
 };
 
 const form = document.querySelector("#stockForm");
@@ -120,7 +123,9 @@ function readForm(imageUrl = "") {
     code: fields.code.value.trim(),
     type: fields.type.value.trim(),
     info: fields.info.value.trim(),
-    imageUrl: imageUrl,
+    imageUrl:
+  imageUrl ||
+  fields.currentImageUrl.value,
     entryDate: fields.entryDate.value,
     wageA: parseMoney(fields.wageA.value),
     wageB: parseMoney(fields.wageB.value),
@@ -128,6 +133,7 @@ function readForm(imageUrl = "") {
     tlv: parseMoney(fields.tlv.value),
     tlh: parseMoney(fields.tlh.value),
     note: fields.note.value.trim(),
+    status: fields.status.value,
   };
 }
 
@@ -135,6 +141,7 @@ function resetForm() {
   form.reset();
   fields.imageFile.value = "";
   fields.editingId.value = "";
+  fields.currentImageUrl.value = "";
   fields.entryDate.valueAsDate = new Date();
   formTitle.textContent = "Th\u00eam d\u1eef li\u1ec7u";
 }
@@ -169,13 +176,17 @@ ${
 
   <div class="card-info">
 
-    <div class="card-code">
-      ${escapeHtml(item.code)}
-    </div>
+<div class="card-code">
+  ${escapeHtml(item.code)}
+</div>
 
-    <div class="card-meta">
-      ${escapeHtml(item.type)} • ${formatDate(item.entryDate)}
-    </div>
+<div class="card-status ${item.status || "pending"}">
+  ${getStatusText(item.status)}
+</div>
+
+<div class="card-meta">
+  ${escapeHtml(item.type)} • ${formatDate(item.entryDate)}
+</div>
 
     <div class="card-meta">
       Linh: ${formatNumber(item.wageA)}
@@ -293,6 +304,8 @@ function handleRowAction(event) {
 
   if (action === "edit") {
     fields.editingId.value = item.id;
+    fields.currentImageUrl.value =
+  item.imageUrl || "";
     fields.code.value = item.code;
     fields.type.value = item.type;
     fields.info.value = item.info || "";
@@ -303,6 +316,8 @@ function handleRowAction(event) {
     fields.tlv.value = item.tlv || "";
     fields.tlh.value = item.tlh || "";
     fields.note.value = item.note || "";
+    fields.status.value =
+  item.status || "pending";
     formTitle.textContent = "S\u1eeda d\u1eef li\u1ec7u";
     window.scrollTo({ top: 0, behavior: "smooth" });
     return;
@@ -598,6 +613,21 @@ function showToast(text, time = 3000){
 function closeImage(){
   document.getElementById("imgModal").style.display = "none";
 }
+function getStatusText(status){
+
+  switch(status){
+
+    case "approved":
+      return "🟢 Đã duyệt";
+
+    case "review":
+      return "🟡 Kiểm tra lại";
+
+    default:
+      return "🔴 Chưa duyệt";
+  }
+}
+
 fields.imageFile.addEventListener("change", () => {
 
   const uploadText =
