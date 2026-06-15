@@ -107,7 +107,11 @@ input:focus,select:focus,textarea:focus{
 .grid-2,.grid-3{display:grid;gap:12px}
 .grid-2{grid-template-columns:repeat(2,1fr)}
 .grid-3{grid-template-columns:repeat(3,1fr)}
-
+.grid-3{
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:12px;
+}
 .content{
   display:flex;
   flex-direction:column;
@@ -295,4 +299,15 @@ input:focus,select:focus,textarea:focus{
 .card-status.approved{
   background:#e5f8ea;
   color:#188038;
+}
+.card-details{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:12px;
+  align-items:stretch;
+}
+
+.card-note-box{
+  min-height:80px;
+  max-height:90px;
 }
