@@ -11,12 +11,11 @@ const fields = {
   wageA: document.querySelector("#wageA"),
   wageB: document.querySelector("#wageB"),
   wageC: document.querySelector("#wageC"),
+  wageD: document.querySelector("#wageD"),
   tlv: document.querySelector("#tlv"),
   tlh: document.querySelector("#tlh"),
   note: document.querySelector("#note"),
-  imageFile: document.querySelector("#imageFile"),
-  status: document.querySelector("#status"),
-  
+  imageFile: document.querySelector("#imageFile"), 
 };
 
 const form = document.querySelector("#stockForm");
@@ -57,6 +56,9 @@ if (!settings.scriptUrl) {
 let scriptUrl = settings.scriptUrl || "";
 fields.entryDate.valueAsDate = new Date();
 render();
+window.addEventListener("load", () => {
+  pullFromSheet();
+});
 
 form.addEventListener("submit", async (event) => {
   event.preventDefault();
@@ -90,9 +92,17 @@ form.addEventListener("submit", async (event) => {
       records.unshift(data);
     }
 
-    saveRecords();
-    resetForm();
-    render();
+const currentY = window.scrollY;
+
+saveRecords();
+await syncToSheet();
+resetForm();
+render();
+
+requestAnimationFrame(() => {
+  window.scrollTo(0, currentY);
+});
+
 showToast("✅ Đã lưu thành công", 2000);
 
   } catch (error) {
@@ -130,10 +140,10 @@ function readForm(imageUrl = "") {
     wageA: parseMoney(fields.wageA.value),
     wageB: parseMoney(fields.wageB.value),
     wageC: parseMoney(fields.wageC.value),
+    wageD: parseMoney(fields.wageD.value),
     tlv: parseMoney(fields.tlv.value),
     tlh: parseMoney(fields.tlh.value),
     note: fields.note.value.trim(),
-    status: fields.status.value,
   };
 }
 
@@ -184,17 +194,25 @@ ${
   ${getStatusText(item.status)}
 </div>
 
-<div class="card-meta">
-  ${escapeHtml(item.type)} • ${formatDate(item.entryDate)}
-</div>
+<div class="card-details">
+
+  <div>
 
     <div class="card-meta">
-      Linh: ${formatNumber(item.wageA)}
-      |
-      KHD: ${formatNumber(item.wageB)}
-      |
-      KLT: ${formatNumber(item.wageC)}
+      ${escapeHtml(item.type)} • ${formatDate(item.entryDate)}
     </div>
+
+<div class="card-meta">
+  Linh: ${formatNumber(item.wageA)}
+  |
+  KHD: ${formatNumber(item.wageB)}
+  |
+  KLT: ${formatNumber(item.wageC)}
+</div>
+
+<div class="card-meta">
+  TD: ${formatNumber(item.wageD)}
+</div>
 
     <div class="card-meta">
       TLH: ${formatNumber(item.tlh)}
@@ -202,21 +220,30 @@ ${
       TLV: ${formatNumber(item.tlv)}
     </div>
 
-    <div class="card-meta">
-      ${escapeHtml(item.note || "")}
-    </div>
-
   </div>
 
-  <div class="row-actions">
-    <button data-action="edit" data-id="${item.id}">
-      Sửa
-    </button>
-
-    <button class="danger" data-action="delete" data-id="${item.id}">
-      Xóa
-    </button>
+  <div class="card-note-box">
+    ${escapeHtml(item.note || "")}
   </div>
+
+</div>
+<div class="row-actions">
+
+  <button data-action="toggle-status" data-id="${item.id}">
+    ${item.status === "approved"
+      ? "Bỏ duyệt"
+      : "Phê duyệt"}
+  </button>
+
+  <button data-action="edit" data-id="${item.id}">
+    Sửa
+  </button>
+
+  <button class="danger" data-action="delete" data-id="${item.id}">
+    Xóa
+  </button>
+
+</div>
 `;
     rowsEl.appendChild(card);
     card.querySelectorAll("button").forEach(btn => {
@@ -252,6 +279,7 @@ function getSearchText(item) {
     item.wageA,
     item.wageB,
     item.wageC,
+    item.wageD,
     item.tlh,
     item.tlv,
     item.note,
@@ -295,12 +323,32 @@ function clearFilters() {
   toDateFilter.value = "";
   render();
 }
-function handleRowAction(event) {
+async function handleRowAction(event) {
   const id = event.currentTarget.dataset.id;
   const action = event.currentTarget.dataset.action;
   const item = records.find((record) => record.id === id);
 
   if (!item) return;
+  if (action === "toggle-status") {
+
+  item.status =
+    item.status === "approved"
+      ? "pending"
+      : "approved";
+
+const scrollPos = rowsEl.scrollTop;
+
+saveRecords();
+await syncToSheet();
+render();
+
+setTimeout(() => {
+  rowsEl.scrollTop = scrollPos;
+}, 0);
+  syncToSheet();
+
+  return;
+}
 
   if (action === "edit") {
     fields.editingId.value = item.id;
@@ -313,20 +361,24 @@ function handleRowAction(event) {
     fields.wageA.value = item.wageA || "";
     fields.wageB.value = item.wageB || "";
     fields.wageC.value = item.wageC || "";
+    fields.wageD.value = item.wageD || "";
     fields.tlv.value = item.tlv || "";
     fields.tlh.value = item.tlh || "";
     fields.note.value = item.note || "";
     fields.status.value =
   item.status || "pending";
     formTitle.textContent = "S\u1eeda d\u1eef li\u1ec7u";
-    window.scrollTo({ top: 0, behavior: "smooth" });
+if (window.innerWidth > 768) {
+  window.scrollTo({ top: 0, behavior: "smooth" });
+}
     return;
   }
 
   if (action === "delete" && confirm("X\u00f3a d\u00f2ng n\u00e0y?")) {
     records = records.filter((record) => record.id !== id);
-    saveRecords();
-    render();
+saveRecords();
+await syncToSheet();
+render();
     setStatus("\u0110\u00e3 x\u00f3a d\u1eef li\u1ec7u.");
   }
 }
@@ -400,10 +452,6 @@ function pullFromSheet() {
     return;
   }
 
-  if (records.length && !confirm("T\u1ea3i t\u1eeb Sheet s\u1ebd thay d\u1eef li\u1ec7u trong app b\u1eb1ng d\u1eef li\u1ec7u tr\u00ean Sheet. Ti\u1ebfp t\u1ee5c?")) {
-    return;
-  }
-
   setStatus("\u0110ang t\u1ea3i d\u1eef li\u1ec7u t\u1eeb Sheet...");
   loadJsonp(scriptUrl)
     .then((payload) => {
@@ -458,6 +506,7 @@ function normalizePulledRecord(item) {
     wageA: Number(item.wageA || 0),
     wageB: Number(item.wageB || 0),
     wageC: Number(item.wageC || 0),
+    wageD: Number(item.wageD || 0),
     tlv: Number(item.tlv || 0),
     tlh: Number(item.tlh || 0),
     note: String(item.note || ""),
@@ -466,7 +515,19 @@ function normalizePulledRecord(item) {
 }
 
 function exportCsv() {
-  const header = ["Ma so", "Loai", "Thong tin", "Ngay nhap", "Khach 1", "Khach 2", "Khach 3", "TLH", "TLV", "Ghi chu"];
+const header = [
+  "Ma so",
+  "Loai",
+  "Thong tin",
+  "Ngay nhap",
+  "Khach 1",
+  "Khach 2",
+  "Khach 3",
+  "Khach 4",
+  "TLH",
+  "TLV",
+  "Ghi chu"
+];
   const lines = getFilteredRecords().map((item) => [
     item.code,
     item.type,
@@ -475,6 +536,7 @@ function exportCsv() {
     item.wageA,
     item.wageB,
     item.wageC,
+    item.wageD,
     item.tlh,
     item.tlv,
     item.note,
