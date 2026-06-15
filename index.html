@@ -45,12 +45,6 @@ href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%22
 <div class="panel-title">
   <h2 id="formTitle">Thêm dữ liệu</h2>
 
-  <select id="status">
-    <option value="pending">🔴 Chưa duyệt</option>
-    <option value="review">🟡 Kiểm tra lại</option>
-    <option value="approved">🟢 Đã duyệt</option>
-  </select>
-
   <button id="resetBtn" class="ghost" type="button">
     Làm mới
   </button>
@@ -79,33 +73,35 @@ href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%22
           <input id="entryDate" required type="date">
         </label>
 
-        <div class="grid-3">
-          <label>
-            <span>Linh</span>
-            <input id="wageA" inputmode="decimal" placeholder="0">
-          </label>
-          <label>
-            <span>KHD</span>
-            <input id="wageB" inputmode="decimal" placeholder="0">
-          </label>
-          <label>
-            <span>KLT</span>
-            <input id="wageC" inputmode="decimal" placeholder="0">
-          </label>
-        </div>
+<div class="grid-3">
+  <label>
+    <span>Linh</span>
+    <input id="wageA" inputmode="decimal" placeholder="0">
+  </label>
 
-        <div class="grid-2">
-          <label>
-            <span>TLH</span>
-            <input id="tlh" inputmode="decimal" placeholder="0">
-          </label>
-          <label>
-            <span>TLV</span>
-            <input id="tlv" inputmode="decimal" placeholder="0">
-          </label>
-        </div>
+  <label>
+    <span>KHD</span>
+    <input id="wageB" inputmode="decimal" placeholder="0">
+  </label>
 
-        <label>
+  <label>
+    <span>KLT</span>
+    <input id="wageC" inputmode="decimal" placeholder="0">
+  </label>
+    <label>
+    <span>TD</span>
+    <input id="wageD" inputmode="decimal" placeholder="0">
+  </label>
+  <label>
+  <span>TLH</span>
+  <input id="tlh" inputmode="decimal" placeholder="0">
+</label>
+
+<label>
+  <span>TLV</span>
+  <input id="tlv" inputmode="decimal" placeholder="0">
+</label>
+</div>
   <span>Ghi chú</span>
   <textarea id="note" rows="3" placeholder="Không bắt buộc"></textarea>
 </label>
